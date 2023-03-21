@@ -1,6 +1,6 @@
 <?php
 
-require 'theme/templates/header.php';
-require 'theme/templates/nav.php';
-require 'theme/templates/login.php';
-require 'theme/templates/footer.php';
+require 'theme/templates/sections/header.php';
+require 'theme/templates/components/nav.php';
+require 'theme/templates/components/login-form.php';
+require 'theme/templates/sections/footer.php';

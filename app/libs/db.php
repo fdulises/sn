@@ -1,6 +1,6 @@
 <?php
 
-namespace lib;
+namespace libs;
 
 abstract class db{
     static public $dbh;
