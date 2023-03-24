@@ -1,10 +1,12 @@
 <?php
 
-// require 'theme/templates/sections/header.php';
-// require 'theme/templates/sections/nav.php';
-// require 'theme/templates/components/feed.php';
-// require 'theme/templates/sections/footer.php';
-
 require 'app/autoload.php';
+require 'app/config/routes.php';
 
-new libs\router;
+//libs\router::execute( $_GET['url'] );
+
+
+preg_match_all( '/\{(.*?)\}/', '/{id}{id2}/{coment}', $matches);
+
+
+var_dump($matches[1]);
