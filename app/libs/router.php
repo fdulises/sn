@@ -2,81 +2,43 @@
 
 namespace libs;
 
-abstract class router{
+abstract class router {
+    private static $routes = array();
 
-    static $routes = [];
-
-    static function add( array $route ){
-        $uri_parts = explode( '/', $route['uri'] );
-        $uri_keys = array_keys($uri_parts);
-
-        $part_first = $uri_parts[array_key_first($uri_parts)];
-
-        self::$routes[$part_first] ??= [
-            '#controller' => null,
-        ];
-
-        $base =& self::$routes[$part_first];
-
-        $actual_part = 1;
-        while( $actual_part < count($uri_parts) ){
-            $actual_part_key = $uri_keys[$actual_part];
-            $actual_part_value = $uri_parts[$actual_part_key];
-            
-            preg_match_all( '/\{(.*?)\}/', $actual_part_value, $matches);
-
-            if( !$matches[1] ){
-                $base[$actual_part_value] ??= [
-                    '#controller' => null,
-                ];
-    
-                $base =& $base[$actual_part_value];
-            }else{
-                $base['#child'] ??= [
-                    '#controller' => null,
-                    '#params' => $matches[1],
-                ];
-
-                $base =& $base['#child'];
-            }
-            
-            $actual_part++;
-        }
-
-        $base['#controller'] = $route['controller'];
+    public static function addRoute($url, $controller) {
+        self::$routes[$url] = $controller;
     }
 
-    static function execute( string $url ){
-        
-        var_dump( self::$routes );
+    public static function route($url) {
+        foreach (self::$routes as $routeUrl => $handler) {
+            // Check if the route URL contains parameters
+            if (strpos($routeUrl, ':') !== false) {
+                // Convert the route URL into a regular expression
+                $routeRegex = preg_replace('/:([a-zA-Z0-9]+)/', '([^/]+)', $routeUrl);
+                $routeRegex = '/^' . str_replace('/', '\/', $routeRegex) . '$/';
 
-        $uri_parts = explode( '/', $url );
+                // Check if the URL matches the regular expression
+                if (preg_match($routeRegex, $url, $matches)) {
+                    // Remove the first match, which is the entire URL
+                    array_shift($matches);
 
-
-        $uri_parts = explode( '/', $url );
-        $uri_keys = array_keys($uri_parts);
-
-        $part_first = $uri_parts[array_key_first($uri_parts)];
-
-        if( isset( self::$routes[$part_first] ) ) $base =& self::$routes[$part_first];
-        else if( isset( self::$routes['#child'] ) ) $base =& self::$routes['#child'];
-        else $base = null;
-
-        if( $base ){
-
-            $actual_part = 1;
-            while( $actual_part < count($uri_parts) ){
-                $actual_part_key = $uri_keys[$actual_part];
-                $actual_part_value = $uri_parts[$actual_part_key];
-                
-                if( isset( $base[$actual_part_value] ) ) $base =& $base[$actual_part_value];
-                else if( isset( $base['#child'] ) ) $base =& $base['#child'];
-                else $base = null;
-
-                $actual_part++;
+                    // Call the appropriate controller and method with the route parameters
+                    list($controllerName, $methodName) = explode('@', $handler);
+                    $controller = new $controllerName();
+                    return call_user_func_array(array($controller, $methodName), $matches);
+                }
+            } else {
+                // If the route URL does not contain parameters, compare it directly to the URL
+                if ($url === $routeUrl) {
+                    // Call the appropriate controller and method
+                    list($controllerName, $methodName) = explode('@', $handler);
+                    $controller = new $controllerName();
+                    return $controller->$methodName();
+                }
             }
         }
 
-        var_dump($base['#controller']);
+        // Return false if the route is not found
+        return false;
     }
 }

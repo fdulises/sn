@@ -3,6 +3,7 @@
 namespace libs;
 
 abstract class db{
+    
     static public $dbh;
 
     static public function connect(){

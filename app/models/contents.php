@@ -10,7 +10,7 @@ class contents{
 
     public function create( array $data ){
 
-        return \lib\db::executeQuery("INSERT INTO contents(
+        return \libs\db::executeQuery("INSERT INTO contents(
                 user_id,
                 title,
                 body,
@@ -28,14 +28,14 @@ class contents{
     }
 
     public function deleteByID( int $id ): bool{
-        return \lib\db::executeQuery("DELETE FROM contents WHERE id = '$id'");
+        return \libs\db::executeQuery("DELETE FROM contents WHERE id = '$id'");
     }
 
     public function get(){
-        return \lib\db::fetchQuery('SELECT * FROM contents');
+        return \libs\db::fetchQuery('SELECT * FROM contents');
     }
 
     public function getByID( int $id ){
-        return \lib\db::fetchFirst("SELECT * FROM contents WHERE id = '$id'");
+        return \libs\db::fetchFirst("SELECT * FROM contents WHERE id = '$id'");
     }
 }

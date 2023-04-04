@@ -3,10 +3,16 @@
 require 'app/autoload.php';
 require 'app/config/routes.php';
 
-//libs\router::execute( $_GET['url'] );
 
 
-preg_match_all( '/\{(.*?)\}/', '/{id}{id2}/{coment}', $matches);
+\libs\db::connect();
 
 
-var_dump($matches[1]);
+
+// Route the request
+$_GET['url'] ??= '/';
+if (!libs\router::route($_GET['url'])) {
+    // Return a 404 error if the route is not found
+    header('HTTP/1.0 404 Not Found');
+    require '404.html';
+}
