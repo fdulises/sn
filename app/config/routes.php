@@ -2,9 +2,9 @@
 
 use libs\router;
 
-router::addRoute('/', '\controllers\ContentController@index');
+router::addRoute( '/', \controllers\ContentController::class, 'index' );
 
-router::addRoute('singin', '\controllers\UserController@login');
-router::addRoute('singup', '\controllers\UserController@register');
-router::addRoute('config', '\controllers\UserController@config');
-router::addRoute('user/:id', '\controllers\UserController@show');
+router::addRoute( 'singin', \controllers\UserController::class, 'login' );
+router::addRoute( 'singup', \controllers\UserController::class, 'register' );
+router::addRoute( 'config', \controllers\UserController::class, 'config' );
+router::addRoute( 'user/:id', \controllers\UserController::class, 'show' );
