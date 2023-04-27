@@ -1,0 +1,27 @@
+{
+    "name": "socialapp/app",
+    "description": "CMS Red social",
+    "type": "project",
+    "license": "private",
+    "authors": [
+        {
+            "name": "Ulises Rendón",
+            "email": "fdulises@outlook.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/neuralpin/neuralpin_temporalrender.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/neuralpin/neuralpin_passencryption.git"
+        }
+    ],
+    "require": {
+        "neuralpin/temporalrender": "dev-main",
+        "neuralpin/passencryption": "dev-main"
+    }
+}
