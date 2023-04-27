@@ -3,10 +3,10 @@
         <div class="col-7">
             <div class="card">
                 <div class="p-2">
-                    Autor @username - Entretenimiento - 01/01/2023 12:00
+                    Autor @<?php echo $content['user_id'] ?> - Entretenimiento - 01/01/2023 12:00
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title text-center">Card title</h5>
+                    <h5 class="card-title text-center"><?php echo $content['title'] ?></h5>
                     <div class="card-text py-2">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
                         blandit purus vulputate ultrices eleifend. Suspendisse dignissim

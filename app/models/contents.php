@@ -2,11 +2,7 @@
 
 namespace models;
 
-class contents{
-
-    public function __construct(){
-        
-    }
+class contents extends mainModel{
 
     public function create( array $data ){
 

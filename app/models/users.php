@@ -2,7 +2,7 @@
 
 namespace models;
 
-class users{
+class users extends mainModel{
 
     public function __construct(){
         
@@ -14,7 +14,7 @@ class users{
         $pass = 'contraseña';
         $pass = $this->encrypt_password($pass, $salt);
 
-        return \lib\db::executeQuery(
+        return \libs\db::executeQuery(
             "INSERT INTO users(
                 email, 
                 nickname, 
@@ -32,18 +32,18 @@ class users{
     }
 
     public function deleteByID( int $id ): bool{
-        return \lib\db::executeQuery("DELETE FROM users WHERE id = '$id'");
+        return \libs\db::executeQuery("DELETE FROM users WHERE id = '$id'");
     }
 
     public function updatePassword( array $data ): bool{
-        return \lib\db::executeQuery("UPDATE users SET 
+        return \libs\db::executeQuery("UPDATE users SET 
             password = '{$data['password']}', 
             password_salt = '{$data['password_salt']}'
             WHERE id = '{$data['id']}'");
     }
 
     public function get(){
-        return \lib\db::fetchQuery('SELECT * FROM users');
+        return \libs\db::fetchQuery('SELECT * FROM users');
     }
 
     public function encrypt_password( string $pass, string $salt ){
